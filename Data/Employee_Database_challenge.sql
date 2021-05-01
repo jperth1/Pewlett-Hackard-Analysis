@@ -97,7 +97,7 @@ WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
 AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
 
 -- Create New Table "retirement_info" from Retirement eligibility queries
-SELECT first_name, last_name
+SELECT first_name, last_name, emp_no
 INTO retirement_info
 FROM employees
 WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
@@ -307,13 +307,28 @@ WHERE (de.to_date = '9999-01-01')
 AND (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 ORDER BY e.emp_no ASC;
 
---Create a table with the current number of employees at PH
+--Deliverable #3 Create additional tables for analysis
+
+--Create "Total_Emp" table to query:
+-- the total number of current employees at PH
 SELECT COUNT(e.emp_no),
 	de.to_date
 INTO total_emp
 FROM employees as e
 LEFT JOIN department_employees as de
 ON (e.emp_no = de.emp_no)
+WHERE de.to_date = ('9999-01-01')
+GROUP BY de.to_date;
+
+--Create Total_retirement table to query:
+--the total number of current employees at PH eligible 
+--for retirement and retirement package
+SELECT COUNT(ce.emp_no),
+	de.to_date
+INTO total_retirement
+FROM current_emp as ce
+INNER JOIN department_employees as de
+ON (ce.emp_no = de.emp_no)
 WHERE de.to_date = ('9999-01-01')
 GROUP BY de.to_date;
 
