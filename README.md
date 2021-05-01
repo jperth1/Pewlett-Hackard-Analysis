@@ -37,7 +37,7 @@ Four major tables were created to highlight the specific job titles that will ne
 
 ## Summary
 
-As a significant number of employees begin to retire in the near future, where will be 33,118 roles that will need to be filled. Due to this large turn over in the forseeable future, additional tables have been created to get a deep look into how the “silver tsunami” will effect the company as a whole as well as each department. 
+As a significant number of employees begin to retire in the near future, where will be 33,118 roles that will need to be filled. Due to this large turn over in the forseeable future, additional tables have been created to get a deeper look into how the “silver tsunami” will effect the company as a whole as well as each department. 
 
 First, the table “mentorship title” table was created to evaluate the number of mentorship eligible employees and their title in comparison to the “Retiring titles” table, which includes the number of retiring employees by their title. As the tables indicate 29,414 Senior Engineers will be retiring in the near future while only 300 Senior Engineers are eligible for the mentorship programs. Similar disparities are seen when comparing each of the titles. Moreover, none of the mentorship eligible employees are currently managers. When comparing these two tables together it is obvious that the company will need more qualified employees to fill these senior level positions and take on a mentorship role. It is advised that the criteria for mentorship eligibility be expanded to include more people than just those born in 1965. 
   
