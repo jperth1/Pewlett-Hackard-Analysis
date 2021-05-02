@@ -3,17 +3,18 @@
 ## Overview of Pewlett-Hackard Analysis
 
 As babybooms begin to retire, Pewlett-Hacker is planning for the future of the company. This analysis aims to aid decision makers at Pewlett-Hackard in planning for the large number employees who will be retiring in the near future. This analysis aims to answer the following necessary questions for effective planning:
+
 1.	Who will be retiring in the next few years
-2.	How many positions will PH need to fill
-3.	Who will be eligible for the retirement package
+2.	How many positions will Pewlett-Hacker need to fill
+3.	Who will be eligible for the companyretirement package
 
-This analysis showcases the employee database created using SQL  from the excel sheets previously used for record keeping. 
 
-The table “total_emp” shows  240,124 employees currenrly working Pewlett-Hackard. The table “total_retirement” shows that there are 33,118 employees who are eligible to retire and eligible for the retirement package. Eligibility for retirment and retirement package is the employee's birth year (1952-1955) and hire date (1985-1988). That means approximately 13.8% of the currently employees will be aging out of the workforce and there will be 33,118 positions that will need to be filled. 
+Additional analysis is conducted on the relationship between employees retiring and their job titles to highlight how roles at the company will be effected by the retirement surge. A mentorship program analysis is presented as a preperation plan for the significant senior positions that will need to be filled following the retirements surge. Moreover, analysis is conducted on how the retirement surge will effect each department. 
 
-![Employee_Database_Challenge_Total_Emp](/Resources/Employee_Database_Challenge_Total_Emp.png)
+## Resources
 
-![Employee_Database_Challenge_Total_Retirement](/Resources/Employee_Database_Challenge_Total_Retirement.png)
+-	Data Source: departments.csv, employees.csv, dept_emp.csv, managers.csv, salaries.csv, titles.csv
+-	Software: PostgreSQL 11, pgAdmin 4
 
 
 ## Results
@@ -36,6 +37,13 @@ Four major tables were created to highlight the specific job titles that will ne
 ![Employee_Database_Challenge_Mentorship_Eligibility](/Resources/Employee_Database_Challenge_Mentorship_Eligibility.png)
 
 ## Summary
+
+The table “total_emp” shows  240,124 employees currenrly working Pewlett-Hackard. The table “total_retirement” shows that there are 33,118 employees who are eligible to retire and eligible for the retirement package. Eligibility for retirment and retirement package is the employee's birth year (1952-1955) and hire date (1985-1988). That means approximately 13.8% of the currently employees will be aging out of the workforce and there will be 33,118 positions that will need to be filled. 
+
+![Employee_Database_Challenge_Total_Emp](/Resources/Employee_Database_Challenge_Total_Emp.png)
+
+![Employee_Database_Challenge_Total_Retirement](/Resources/Employee_Database_Challenge_Total_Retirement.png)
+
 
 As a significant number of employees begin to retire in the near future, where will be 33,118 roles that will need to be filled. Due to this large turn over in the forseeable future, additional tables have been created to get a deeper look into how the “silver tsunami” will effect the company as a whole as well as each department. 
 
