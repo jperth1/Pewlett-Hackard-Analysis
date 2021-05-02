@@ -310,13 +310,63 @@ WHERE (de.to_date = '9999-01-01')
 AND (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 ORDER BY e.emp_no ASC;
 
---Create a table with the current number of employees at PH
+
+--Deliverable #3 Create additional tables for analysis
+
+--Create "Total_Emp" table to query:
+-- the total number of current employees at PH
 SELECT COUNT(e.emp_no),
 	de.to_date
---INTO total_emp
+INTO total_emp
 FROM employees as e
 LEFT JOIN department_employees as de
 ON (e.emp_no = de.emp_no)
 WHERE de.to_date = ('9999-01-01')
 GROUP BY de.to_date;
-	
+
+--Create Total_retirement table to query:
+--the total number of current employees at PH eligible 
+--for retirement and retirement package
+SELECT COUNT(ce.emp_no),
+	de.to_date
+INTO total_retirement
+FROM current_emp as ce
+INNER JOIN department_employees as de
+ON (ce.emp_no = de.emp_no)
+WHERE de.to_date = ('9999-01-01')
+GROUP BY de.to_date;
+
+---Create Retirment_Dept table to query:
+-- number of employees about to retire in the each department
+SELECT COUNT(ce.emp_no), d.dept_name
+INTO retirement_dept
+FROM current_emp as ce
+INNER JOIN department_employees as de
+ON ce.emp_no = de.emp_no
+INNER JOIN departments as d
+ON de.dept_no = d.dept_no
+GROUP BY d.dept_name
+ORDER BY d.dept_name;
+
+--Create total_dept to query:
+--total current employees in each department
+SELECT COUNT(e.emp_no),
+	d.dept_name
+INTO total_dept
+FROM employees as e
+INNER JOIN department_employees as de
+ON (e.emp_no = de.emp_no)
+INNER JOIN departments as d
+ON (de.dept_no = d.dept_no)
+WHERE de.to_date = ('9999-01-01')
+GROUP BY d.dept_name
+ORDER BY d.dept_name;
+
+--Create Mentorship_title to query:
+--number of employees eligible for the mentorship program by title
+SELECT COUNT (me.title),
+	me.title
+INTO mentorship_title
+FROM mentorship_eligibility as me
+GROUP BY me.title
+ORDER BY COUNT (me.title) DESC;

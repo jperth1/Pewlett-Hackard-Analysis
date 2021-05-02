@@ -89,14 +89,15 @@ FROM employees
 WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
 AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
 
--- Number of employees retiring
+-- Number of employees eligible to retire 
+-- and eligibile for retirement package
 SELECT COUNT(first_name)
 FROM employees
 WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
 AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
 
 -- Create New Table "retirement_info" from Retirement eligibility queries
-SELECT first_name, last_name
+SELECT first_name, last_name, emp_no
 INTO retirement_info
 FROM employees
 WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
@@ -139,7 +140,9 @@ SELECT d.dept_name,
 FROM departments as d
 INNER JOIN dept_manager as dm
 ON d.dept_no = dm.dept_no;
---Create the Current_emp table join retirement_info and department_employees
+
+-- Create table Current_Emp of all 
+--retirement eligible employeers still employed at PH, 
 SELECT ri.emp_no,
     ri.first_name,
     ri.last_name,
@@ -164,7 +167,10 @@ ORDER BY de.dept_no;
 SELECT * FROM salaries
 ORDER BY to_date DESC;
 
---filter the employee table 
+--Create Emp_info table that queries 
+--retiring employees currently at PH 
+--eligible for retirement package and 
+--their current salaries
 SELECT e.emp_no,
     e.first_name,
 	e.last_name,
@@ -181,8 +187,10 @@ WHERE (e.birth_date BETWEEN '1952-01-01' AND '1955-12-31')
 AND (e.hire_date BETWEEN '1985-01-01' AND '1988-12-31')
 AND (de.to_date = '9999-01-01');
 
---create the Management List
--- List of managers per department
+--Create Management_Info table that queries
+--department managers that are 
+--retiring employees currently at PH and
+--eligible for retirement package 
 SELECT  dm.dept_no,
         d.dept_name,
         dm.emp_no,
@@ -209,33 +217,38 @@ ON (ce.emp_no = de.emp_no)
 INNER JOIN departments AS d
 ON (de.dept_no = d.dept_no);
 
---Create Sales_info query
-SELECT ri.emp_no,
-	ri.first_name,
-	ri.last_name,
+--Create Sales_info Table to query:
+--employees about to retire in the sales department
+SELECT ce.emp_no,
+	ce.first_name,
+	ce.last_name,
 	d.dept_name
 INTO sales_info
-FROM retirement_info as ri
+FROM current_emp as ce
 INNER JOIN department_employees as de
-ON (ri.emp_no = de.emp_no)
+ON (ce.emp_no = de.emp_no)
 INNER JOIN departments as d
 ON(de.dept_no = d.dept_no)
 WHERE (d.dept_name =('Sales'))
 
---Create a query for Sales and Development departments using the IN statement
-SELECT ri.emp_no,
-	ri.first_name,
-	ri.last_name,
+--Create Sales and Development table to query:
+-- employees about to retire in the sales and development department
+--using the IN statement
+SELECT ce.emp_no,
+	ce.first_name,
+	ce.last_name,
 	d.dept_name
 INTO sales_development_info
-FROM retirement_info as ri
+FROM current_emp as ce
 INNER JOIN department_employees as de
-ON (ri.emp_no = de.emp_no)
+ON (ce.emp_no = de.emp_no)
 INNER JOIN departments as d
 ON (de.dept_no = d.dept_no)
 WHERE d.dept_name IN ('Sales', 'Development');
 	
---Deliverable #1a Create Retirement_Titles table
+--Deliverable #1a 
+--Create Retirement_Titles table to query:
+--employees eligible for retirement and their titles (includes titles over the years) 
 SELECT e.emp_no,
 	e.first_name,
 	e.last_name,
@@ -247,9 +260,12 @@ FROM employees as e
 INNER JOIN titles as t
 ON (e.emp_no = t.emp_no)
 WHERE (e.birth_date BETWEEN '1952-01-01' AND '1955-12-31')
-ORDER BY e.emp_no ASC 
+ORDER BY e.emp_no ASC; 
 
--- Deliverable #1b Create Unique_Titles table, use DISTINT ON 
+-- Deliverable #1b 
+--Create Unique_Titles table to query:
+--Employees Eligible for retirement and their current job titles
+--use DISTINT ON to remove duplicate titles for single employee
 SELECT DISTINCT ON (rt.emp_no) 
 	rt.emp_no,
 	rt.first_name,
@@ -259,7 +275,10 @@ INTO unique_titles
 FROM retirement_titles as rt
 ORDER BY rt.emp_no ASC, rt.to_date DESC;
 
---Deliverable #1c Create Retiring_titles table, use Count
+--Deliverable #1c 
+--Create Retiring_titles table to query:
+--number of employees about to retire by their most recent job title.
+--use Count
 SELECT COUNT (ut.title), ut.title
 INTO retiring_titles
 FROM unique_titles as ut 
@@ -267,7 +286,9 @@ GROUP BY ut.title
 ORDER BY COUNT (ut.title) DESC;
 
 -- Deliverable #2 
---Create Mentorship Eligibility table
+--Create Mentorship Eligibility table to query:
+--current employees eligible for mentorship program
+--eligibility based on birth year 1965
 SELECT DISTINCT ON (e.emp_no)
 	e.emp_no,
 	e.first_name,
@@ -285,8 +306,67 @@ ON (e.emp_no = t.emp_no)
 WHERE (de.to_date = '9999-01-01')
 AND (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 ORDER BY e.emp_no ASC;
-	
-	
+
+--Deliverable #3 Create additional tables for analysis
+
+--Create "Total_Emp" table to query:
+-- the total number of current employees at PH
+SELECT COUNT(e.emp_no),
+	de.to_date
+INTO total_emp
+FROM employees as e
+LEFT JOIN department_employees as de
+ON (e.emp_no = de.emp_no)
+WHERE de.to_date = ('9999-01-01')
+GROUP BY de.to_date;
+
+--Create Total_retirement table to query:
+--the total number of current employees at PH eligible 
+--for retirement and retirement package
+SELECT COUNT(ce.emp_no),
+	de.to_date
+INTO total_retirement
+FROM current_emp as ce
+INNER JOIN department_employees as de
+ON (ce.emp_no = de.emp_no)
+WHERE de.to_date = ('9999-01-01')
+GROUP BY de.to_date;
+
+---Create Retirment_Dept table to query:
+-- number of employees about to retire in the each department
+SELECT COUNT(ce.emp_no), d.dept_name
+INTO retirement_dept
+FROM current_emp as ce
+INNER JOIN department_employees as de
+ON ce.emp_no = de.emp_no
+INNER JOIN departments as d
+ON de.dept_no = d.dept_no
+GROUP BY d.dept_name
+ORDER BY d.dept_name;
+
+--Create total_dept to query:
+--total current employees in each department
+SELECT COUNT(e.emp_no),
+	d.dept_name
+INTO total_dept
+FROM employees as e
+INNER JOIN department_employees as de
+ON (e.emp_no = de.emp_no)
+INNER JOIN departments as d
+ON (de.dept_no = d.dept_no)
+WHERE de.to_date = ('9999-01-01')
+GROUP BY d.dept_name
+ORDER BY d.dept_name;
+
+--Create Mentorship_title to query:
+--number of employees eligible for the mentorship program by title
+SELECT COUNT (me.title),
+	me.title
+INTO mentorship_title
+FROM mentorship_eligibility as me
+GROUP BY me.title
+ORDER BY COUNT (me.title) DESC;
+
 
 
 
