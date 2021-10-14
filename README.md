@@ -2,7 +2,7 @@
 
 ## Overview of Pewlett-Hackard Analysis
 
-As babybooms begin to retire, Pewlett-Hacker is planning for the future of the company. This analysis aims to aid decision makers at Pewlett-Hackard in planning for the large number employees who will be retiring in the near future. This analysis aims to answer the following necessary questions for effective planning:
+This analysis aims to aid decision makers at Pewlett-Hackard in planning for the large number of employees who will be retiring in the near future. This analysis aims to answer the following necessary questions for effective planning:
 
 1.	Who will be retiring in the next few years
 2.	How many positions will Pewlett-Hacker need to fill
